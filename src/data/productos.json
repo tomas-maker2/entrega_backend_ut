@@ -1,0 +1,44 @@
+[
+  {
+    "id": "zv8k0c4x",
+    "title": "Nuevo Producto",
+    "description": "Descripción del Nuevo Producto",
+    "code": "ABC123",
+    "price": 29.99,
+    "status": true,
+    "stock": 50,
+    "category": "Electrónica",
+    "thumbnails": [
+      "imagen1.jpg",
+      "imagen2.jpg"
+    ]
+  },
+  {
+    "id": "mnlpjnv1",
+    "title": "Nuevo Producto 2",
+    "description": "Descripción del Nuevo Producto 2",
+    "code": "ABC423",
+    "price": 30.99,
+    "status": true,
+    "stock": 30,
+    "category": "autos",
+    "thumbnails": [
+      "imagen3.jpg",
+      "imagen4.jpg"
+    ]
+  },
+  {
+    "id": 1,
+    "title": "Nuevo Producto3",
+    "description": "Descripción del Nuevo Producto 3",
+    "code": "ABC123",
+    "price": 25.99,
+    "status": true,
+    "stock": 30,
+    "category": "Electrónicacaca",
+    "thumbnails": [
+      "imagen5.jpg",
+      "imagen6.jpg"
+    ]
+  }
+]
