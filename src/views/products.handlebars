@@ -12,7 +12,6 @@
             <li>
                 <h2>{{this.title}}</h2>
                 <p>Precio: ${{this.price}}</p>
-                <!-- Enlace para ver detalles completos del producto -->
                 <a href="/products/{{this._id}}">Ver detalles</a>
                 <!-- Botón para agregar al carrito -->
                 <button data-product-id="{{this._id}}" class="add-to-cart-button">Agregar al carrito</button>
@@ -28,29 +27,22 @@
         addToCartButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const productId = this.getAttribute('data-product-id');
-
-                // Enviar una solicitud AJAX al servidor para agregar el producto al carrito
                 addToCart(productId);
             });
         });
 
         function addToCart(productId) {
-            // Realiza una solicitud AJAX al servidor para agregar el producto al carrito
-            // Puedes usar la función fetch() u otras bibliotecas como Axios para hacer esto.
             fetch(`/api/carts/:cid/product/${productId}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ quantity: 1 }) // Puedes ajustar la cantidad según tus necesidades
+                body: JSON.stringify({ quantity: 1 }) 
             })
                 .then(response => {
                     if (response.ok) {
-                        // El producto se agregó con éxito al carrito
-                        // Puedes mostrar un mensaje de confirmación o actualizar la interfaz de usuario.
                         console.log('Producto agregado al carrito');
                     } else {
-                        // Manejar errores si es necesario
                         console.error('Error al agregar el producto al carrito');
                     }
                 })

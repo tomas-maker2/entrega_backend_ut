@@ -1,38 +1,35 @@
-// Importa los módulos necesarios
 import fs from 'fs';
 import ProductManager from '../dao/database/ProductManager.js';
 import { productModel } from '../dao/models/product.model.js';
 
-// Ruta al archivo de productos
+
 const productosFile = './src/data/productos.json';
 
-// Crea una instancia de ProductManager
+
 const productManager = new ProductManager(productosFile);
 
-// Función asíncrona para obtener todos los productos
-// Función asíncrona para obtener todos los productos con filtros y paginación
+// Función para obtener todos los productos
+// Función para obtener todos los productos con filtros y paginación
 const getAllProducts = async (req, res) => {
   try {
     const { limit = 10, page = 1, sort, query } = req.query;
 
-    // Construye la consulta en función de los parámetros de consulta
+    
     const queryOptions = {};
 
-    // Aplica los filtros según el valor de 'query' (por ejemplo, por categoría o disponibilidad)
+    
     if (query) {
       if (query === 'available') {
-        queryOptions.status = true; // Filtrar por disponibilidad
+        queryOptions.status = true;
       } else if (query === 'unavailable') {
-        queryOptions.status = false; // Filtrar por no disponible
+        queryOptions.status = false; 
       } else if (query === 'electronics') {
-        queryOptions.category = 'Electronics'; // Filtrar por categoría "Electronics"
+        queryOptions.category = 'Electronics'; 
       } else if (query === 'clothing') {
-        queryOptions.category = 'Clothing'; // Filtrar por categoría "Clothing"
+        queryOptions.category = 'Clothing'; 
       }
-      // Agrega más condiciones de filtro según tus necesidades
     }
 
-    // Aplica la lógica de ordenamiento según el valor de 'sort' (asc/desc)
     const sortOptions = {};
     if (sort === 'asc') {
       sortOptions.price = 1; // Ordenamiento ascendente por precio
@@ -40,7 +37,6 @@ const getAllProducts = async (req, res) => {
       sortOptions.price = -1; // Ordenamiento descendente por precio
     }
 
-    // Utiliza Mongoose para realizar la consulta con los filtros y ordenamiento
     const totalProducts = await productModel.countDocuments(queryOptions);
     const totalPages = Math.ceil(totalProducts / limit);
 
@@ -51,7 +47,6 @@ const getAllProducts = async (req, res) => {
       .limit(Number(limit))
       .exec();
 
-    // Construye la respuesta con los resultados y metainformación
     const response = {
       status: 'success',
       payload: products,
@@ -71,12 +66,11 @@ const getAllProducts = async (req, res) => {
     res.status(500).json({ error: 'Error al obtener todos los productos' });
   }
 }
-// Función asíncrona para obtener un producto por ID
+// Función para obtener un producto por ID
 const getProductById = async (req, res) => {
   const productId = req.params.pid;
 
   try {
-    // Utiliza el método getProductById de ProductManager para obtener el producto por ID
     const foundProduct = await productManager.getProductById(productId);
 
     if (foundProduct) {
@@ -90,12 +84,11 @@ const getProductById = async (req, res) => {
   }
 }
 
-// Función asíncrona para agregar un nuevo producto
+// Función para agregar un nuevo producto
 const addProduct = async (req, res) => {
   const newProductData = req.body;
 
   try {
-    // Utiliza el método addProduct de ProductManager para agregar un nuevo producto
     const newProduct = await productManager.addProduct(newProductData);
     res.json(newProduct);
   } catch (error) {
@@ -104,13 +97,12 @@ const addProduct = async (req, res) => {
   }
 }
 
-// Función asíncrona para actualizar un producto
+// Función para actualizar un producto
 const updateProduct = async (req, res) => {
   const productId = req.params.pid;
   const updatedProductData = req.body;
 
   try {
-    // Utiliza el método updateProduct de ProductManager para actualizar un producto por ID
     const updatedProduct = await productManager.updateProduct(productId, updatedProductData);
     if (updatedProduct) {
       res.json(updatedProduct);
@@ -123,12 +115,11 @@ const updateProduct = async (req, res) => {
   }
 }
 
-// Función asíncrona para eliminar un producto
+// Función para eliminar un producto
 const deleteProduct = async (req, res) => {
   const productId = req.params.pid;
 
   try {
-    // Utiliza el método deleteProduct de ProductManager para eliminar un producto por ID
     const deleted = await productManager.deleteProduct(productId);
     if (deleted) {
       res.json({ message: 'Producto eliminado correctamente' });
@@ -141,7 +132,6 @@ const deleteProduct = async (req, res) => {
   }
 }
 
-// Exporta las funciones de los controladores
 export { getAllProducts, getProductById, addProduct, updateProduct, deleteProduct };
 
 

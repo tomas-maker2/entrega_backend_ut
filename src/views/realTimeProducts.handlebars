@@ -22,25 +22,19 @@
         <label for="price">Precio:</label>
         <input type="number" id="price" name="price" required>
         <br>
-        <!-- Otros campos para descripción, código, etc. -->
         <button type="submit">Agregar Producto</button>
     </form>
 
-    <!-- Script para manejar la actualización en tiempo real -->
     <script>
-        // Conectar a Websockets
         const socket = io();
 
-        // Escuchar eventos de actualización de productos
         socket.on('productAdded', (newProduct) => {
-            // Actualizar la lista de productos cuando se agrega uno nuevo
             const productList = document.querySelector('ul');
             const listItem = document.createElement('li');
             listItem.textContent = `${newProduct.title} - Precio: $${newProduct.price}`;
             productList.appendChild(listItem);
         });
 
-        // Manejar el envío del formulario para agregar un nuevo producto
         const addProductForm = document.getElementById('addProductForm');
         addProductForm.addEventListener('submit', (event) => {
             event.preventDefault();
@@ -51,7 +45,6 @@
                 newProduct[key] = value;
             });
 
-            // Enviar el nuevo producto al servidor a través de Websockets
             socket.emit('addProduct', newProduct);
             addProductForm.reset();
         });
