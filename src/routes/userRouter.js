@@ -26,7 +26,7 @@ router.post('/signup', async (req,res) => {
     req.session.age = age;
     req.session.isLogged = true;
 
-    res.redirect('/products')
+    res.redirect('products')
 });
 
 router.post ('/login', async (req,res) => {
@@ -37,14 +37,21 @@ router.post ('/login', async (req,res) => {
         return res.send("Tus credenciales no son correctas")
     }
 
+    if(email === 'adminCoder@coder.com' && password === 'adminCod3r123' ){
+        user.role = 'admin'
+    } else {
+        user.role = 'usuario'
+    }
+
 
     req.session.first_name = user.first_name;
     req.session.last_name = user.last_name;
     req.session.email = user.email;
     req.session.age = user.age;
     req.session.isLogged = true;
+    req.session.role  =user.role;
 
-    res.redirect('/products')
+    res.redirect('products')
 })
 
 export default router
