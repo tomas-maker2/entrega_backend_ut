@@ -18,6 +18,10 @@ import viewRouter from './routes/viewsRouter.js'
 // IMPORT USERROUTER
 import userRouter from './routes/userRouter.js'
 
+// IMPORT INITIALIZE
+import initializePassport from './config/passport.config.js';
+import passport from 'passport';
+
 mongoose.connect(
   'mongodb+srv://tomasmaker2:topper10@cluster0.na8mlhz.mongodb.net/?retryWrites=true&w=majority'
 )
@@ -28,6 +32,7 @@ const httpServer = app.listen(8080, () => console.log(`Servidor escuchando en el
 const socketServer = new Server(httpServer)
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.engine('handlebars', handlebars.engine());
 app.set('views', './src/views')
@@ -46,10 +51,6 @@ app.use(session({
   saveUninitialized: false,
 }))
 
-app.get('/', (req,res) => {
-  res.render('home', {pageTitle: 'Pagina de Inicio'})
-})
-
 app.get('/realtimeproducts', (req,res) => {
   res.render('realTimeProducts' , {pageTitle: 'Productos en Tiempo real'})
 })
@@ -63,7 +64,9 @@ app.use('/views', viewsRouter)
 app.use('/api', userRouter)
 app.use('/', viewRouter);
 
-
+initializePassport();
+app.use(passport.initialize())
+app.use(passport.session())
 
 
 socketServer.on('connection' , (socket) => {

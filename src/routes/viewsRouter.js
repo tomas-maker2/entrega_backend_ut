@@ -9,10 +9,14 @@ router.get('/login', publicRoutes , (req,res) => {
 })
 
 
-router.get('/signup', (req,res) => {
+router.get('/signup',  publicRoutes ,(req,res) => {
     res.render('signup')
 })
 
+
+router.get('/recover',  publicRoutes ,(req,res) => {
+    res.render('recover')
+})
 
 router.get('/profile', privateRoutes , (req,res) => {
     const { first_name, last_name, email, age } = req.session 
