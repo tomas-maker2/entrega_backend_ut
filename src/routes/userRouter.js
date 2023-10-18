@@ -62,6 +62,20 @@ router.post ('/login',passport.authenticate('login' , {failureRedirect: '/login'
     res.redirect('/profile')
 })
 
+router.get('/github', passport.authenticate('github' ,  { scope: ['user:email'] } ) , )
+
+router.get('/githubcallback' , passport.authenticate('github' , {failureRedirect: '/login'}), (req,res) => {
+    
+    req.session.first_name = req.user.first_name;
+    req.session.last_name = req.user.last_name;
+    req.session.email = req.user.email;
+    req.session.age = req.user.age;
+    req.session.role  = req.user.role;
+    req.session.isLogged = true;
+
+    res.redirect('/profile')
+})
+
 router.post ('/recover', async (req,res) => {
     const { email, password } = req.body;
     const user = await userModel.findOne({email}).lean();
