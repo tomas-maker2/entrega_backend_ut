@@ -22,8 +22,11 @@ import userRouter from './routes/userRouter.js'
 import initializePassport from './config/passport.config.js';
 import passport from 'passport';
 
+// IMPORT DOTENV
+import 'dotenv/config'
+
 mongoose.connect(
-  'mongodb+srv://tomasmaker2:topper10@cluster0.na8mlhz.mongodb.net/?retryWrites=true&w=majority'
+  process.env.MONGO_URL
 )
 
 const app = express();
@@ -43,10 +46,10 @@ app.use(express.static('./src/public'))
 
 app.use(session({
   store: MongoStore.create({
-    mongoUrl: 'mongodb+srv://tomasmaker2:topper10@cluster0.na8mlhz.mongodb.net/?retryWrites=true&w=majority',
+    mongoUrl: process.env.MONGO_URL,
     ttl:15
   }),
-  secret: 'docinecub',
+  secret: process.env.SECRET_KEY,
   resave: false,
   saveUninitialized: false,
 }))

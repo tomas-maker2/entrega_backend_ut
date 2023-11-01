@@ -4,6 +4,7 @@ import bcrypt from 'bcrypt';
 import { userModel } from "../dao/models/user.model.js";
 import GithubStrategy from 'passport-github2'
 
+
 const initializePassport = () => {
     passport.use('register', new LocalStrategy({ passReqToCallback: true , usernameField: 'email' } , async (req, username, password, done) => {
         const { first_name, last_name, age } = req.body;
@@ -42,7 +43,7 @@ const initializePassport = () => {
     }))
 
     passport.use('github', new GithubStrategy({
-        clientID: 'Iv1.28524b200f8a7660',
+        clientID: 'Iv1.28524b200f8a7660' ,
         clientSecret: '77f9e783709d05eeb2076867b70e978cf9b814bf',
         callbackURL: 'http://localhost:8080/api/githubcallback' , 
         scope: ['user:email'],
