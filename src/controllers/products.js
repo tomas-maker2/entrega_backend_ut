@@ -47,7 +47,8 @@ const getAllProducts = async (req, res) => {
       .limit(Number(limit))
       .exec();
 
-    const response = {
+      // DTO
+    const responseDTO = {
       status: 'success',
       payload: products,
       totalPages,
@@ -60,7 +61,7 @@ const getAllProducts = async (req, res) => {
       nextLink: page < totalPages ? `/api/products?limit=${limit}&page=${page + 1}` : null,
     };
 
-    res.json(response);
+    res.json(responseDTO);
   } catch (error) {
     console.error('Error al obtener todos los productos', error);
     res.status(500).json({ error: 'Error al obtener todos los productos' });

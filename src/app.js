@@ -7,6 +7,7 @@ import handlebars from 'express-handlebars'
 import mongoose from 'mongoose';
 import { Server } from 'socket.io';
 import { mensajeModel } from './dao/models/mensajes.model.js';
+import nodemailer from 'nodemailer'
 
 // IMPORTAMOS MONGO Y SESSION
 import MongoStore from 'connect-mongo';
@@ -57,6 +58,38 @@ app.use(session({
 app.get('/realtimeproducts', (req,res) => {
   res.render('realTimeProducts' , {pageTitle: 'Productos en Tiempo real'})
 })
+
+
+// MAILING
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.ethereal.email',
+  port: 587,
+  auth: {
+      user: 'murphy16@ethereal.email',
+      pass: '9eKE26n8drEE4NC3CQ'
+  }
+});
+
+app.get('/mail', async (req,res) => {
+
+  var message = {
+    from: "sender@server.com",
+    to: "murphy16@ethereal.email",
+    subject: "Message title",
+    text: "Plaintext version of the message",
+    html: "<p>HTML version of the message</p>"
+  };
+
+  await transporter.sendMail(message)
+  res.send('hola')
+})
+
+
+
+
+
+// MAILING
 
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);

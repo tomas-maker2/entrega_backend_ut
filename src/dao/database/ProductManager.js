@@ -1,9 +1,12 @@
-import { productModel } from "../models/product.model.js";
+// import { productModel } from "../models/product.model.js";
+import { ProductRepository } from "../../repository/productRepository.js";
+
+const productRepository = new ProductRepository();
 
 class ProductManager {
     async addProduct(productData) {
         try {
-        const newProduct = new productModel(productData);
+        const newProduct = productRepository.add(productData);
         await newProduct.save();
         return newProduct;
         } catch (error) {
@@ -14,7 +17,7 @@ class ProductManager {
 
     async getProducts() {
         try {
-        const products = await productModel.find().exec();
+        const products = await productRepository.products();
         return products;
         } catch (error) {
         console.error('Error al obtener los productos', error);
@@ -24,7 +27,8 @@ class ProductManager {
 
     async getProductById(productId) {
         try {
-        const product = await productModel.findById(productId).exec();
+            // productModel.findById(productId).exec();
+        const product = await productRepository.get(productId);
         return product;
     } catch (error) {
         console.error('Error al obtener el producto por ID', error);
@@ -34,11 +38,7 @@ class ProductManager {
 
     async updateProduct(productId, updatedProductData) {
         try {
-        const product = await productModel.findByIdAndUpdate(
-            productId,
-            updatedProductData,
-            { new: true }
-        ).exec();
+        const product = await productRepository.update(productId, updatedProductData)
         return product;
     } catch (error) {
         console.error('Error al actualizar el producto', error);
@@ -48,7 +48,7 @@ class ProductManager {
 
     async deleteProduct(productId) {
         try {
-        const result = await productModel.findByIdAndRemove(productId).exec();
+        const result = await productRepository.delete(productId);
         return result !== null;
     } catch (error) {
         console.error('Error al eliminar el producto', error);

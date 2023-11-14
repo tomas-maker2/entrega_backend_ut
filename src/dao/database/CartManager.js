@@ -1,14 +1,17 @@
-import { cartModel } from "../models/cart.model.js";
+
+import { CartRepository } from "../../repository/cartRepositoy.js";
+
+const cartRepository = new CartRepository()
 
 export default class CartManager{
     async createCart() {
-        const newCart = await cartModel.create({ products: [] });
+        const newCart = await cartRepository.create();
         return newCart;
     }
     
     async getCartById(cartId) {
         try {
-            const foundCart = await cartModel.findById(cartId);
+            const foundCart = await cartRepository.getID(cartId)
             return foundCart;
         } catch (error) {
             return null;
@@ -17,7 +20,7 @@ export default class CartManager{
     
     async addProductToCart(cartId, productId, quantity = 1) {
         try {
-            const foundCart = await cartModel.findById(cartId);
+            const foundCart = await cartRepository.add(cartId);
     
             if (foundCart) {
             foundCart.products.push({ productId, quantity });
@@ -33,7 +36,7 @@ export default class CartManager{
     
     async getCarts() {
         try {
-            const allCarts = await cartModel.find().lean();
+            const allCarts = await cartRepository.get();
             return allCarts;
         } catch (error) {
             return [];
