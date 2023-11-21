@@ -1,7 +1,4 @@
-
-import { CartRepository } from "../../repository/cartRepositoy.js";
-
-const cartRepository = new CartRepository()
+import { cartRepository } from "../../repository/index.js";
 
 export default class CartManager{
     async createCart() {

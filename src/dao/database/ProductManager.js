@@ -1,7 +1,4 @@
-// import { productModel } from "../models/product.model.js";
-import { ProductRepository } from "../../repository/productRepository.js";
-
-const productRepository = new ProductRepository();
+import { productRepository } from "../../repository/index.js";
 
 class ProductManager {
     async addProduct(productData) {

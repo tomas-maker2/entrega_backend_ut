@@ -3,6 +3,7 @@ import productsRouter from './routes/products.js';
 import cartsRouter from './routes/carts.js';
 import chatRouter from './routes/chat.js'
 import viewsRouter from './routes/views.js'
+import fakerRouter from './routes/fakerRouter.js'
 import handlebars from 'express-handlebars'
 import mongoose from 'mongoose';
 import { Server } from 'socket.io';
@@ -25,6 +26,9 @@ import passport from 'passport';
 
 // IMPORT DOTENV
 import 'dotenv/config'
+
+// IMPORT ERRORHANDLER
+import errorHandler from './middleware/errors/index.js'
 
 mongoose.connect(
   process.env.MONGO_URL
@@ -85,11 +89,14 @@ app.get('/mail', async (req,res) => {
   res.send('hola')
 })
 
-
-
-
-
 // MAILING
+
+
+// FAKER
+
+app.use('/mockingproducts' , fakerRouter )
+
+// FAKER
 
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
@@ -99,6 +106,10 @@ app.use('/views', viewsRouter)
 // USE VIEWROUTER
 app.use('/api', userRouter)
 app.use('/', viewRouter);
+
+
+// ERRORHANDLER
+app.use(errorHandler)
 
 initializePassport();
 app.use(passport.initialize())
