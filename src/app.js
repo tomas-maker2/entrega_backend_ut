@@ -30,6 +30,9 @@ import 'dotenv/config'
 // IMPORT ERRORHANDLER
 import errorHandler from './middleware/errors/index.js'
 
+// LOGGER
+ import { logger } from './utils/logger.js';
+
 mongoose.connect(
   process.env.MONGO_URL
 )
@@ -117,7 +120,8 @@ app.use(passport.session())
 
 
 socketServer.on('connection' , (socket) => {
-  console.log("se conecto ", (socket.id));
+  logger.info('se conecto', (socket.id))
+  // console.log("se conecto ", (socket.id));
   socket.on('mensaje' , async (data) => {
     await mensajeModel.create(data);
     const mensajes = await mensajeModel.find().lean()
