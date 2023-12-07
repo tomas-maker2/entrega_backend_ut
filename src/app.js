@@ -9,6 +9,7 @@ import mongoose from 'mongoose';
 import { Server } from 'socket.io';
 import { mensajeModel } from './dao/models/mensajes.model.js';
 import nodemailer from 'nodemailer'
+import authRouter from './routes/auth.js'
 
 // IMPORTAMOS MONGO Y SESSION
 import MongoStore from 'connect-mongo';
@@ -109,6 +110,7 @@ app.use('/views', viewsRouter)
 // USE VIEWROUTER
 app.use('/api', userRouter)
 app.use('/', viewRouter);
+app.use('/auth', authRouter)
 
 
 // ERRORHANDLER
