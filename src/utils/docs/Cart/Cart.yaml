@@ -1,0 +1,70 @@
+paths:
+  /api/carts:
+    get:
+      summary: Obtiene todos los carritos
+      tags:
+      - Carts
+      responses:
+        "200":
+          description: Éxito
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#components/schemas/Carts'
+    post:
+      summary: Crea un carrito
+      tags:
+        - Carts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/createCart'
+
+components:
+  schemas:
+    Carts:
+      type: object
+      properties:
+        cart_id: 
+          type: ObjectId()
+          description: ID único del carrito
+        items:
+          type: array
+          items:
+            $ref: '#components/schemas/CartItem'
+      example:
+        cart_id: 12345
+        items:
+          - product_id: 650dcca1b0e42de7bb32202c
+            quantity: 2
+          - product_id: 78901234567890abcdef1234
+            quantity: 1
+
+    CartItem:
+      type: object
+      properties:
+        product_id:
+          type: ObjectId()
+          description: ID único del producto en el carrito
+        quantity:
+          type: Number
+          description: Cantidad del producto en el carrito
+
+  requestBodies:
+    createCart:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#components/schemas/CartItem'
+      example:
+        items:
+          - product_id: 650dcca1b0e42de7bb32202c
+            quantity: 2
+          - product_id: 78901234567890abcdef1234
+            quantity: 1

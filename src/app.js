@@ -10,6 +10,7 @@ import { Server } from 'socket.io';
 import { mensajeModel } from './dao/models/mensajes.model.js';
 import nodemailer from 'nodemailer'
 import authRouter from './routes/auth.js'
+import path from 'path'
 
 // IMPORTAMOS MONGO Y SESSION
 import MongoStore from 'connect-mongo';
@@ -33,6 +34,12 @@ import errorHandler from './middleware/errors/index.js'
 
 // LOGGER
  import { logger } from './utils/logger.js';
+
+//  import swagger
+
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUiExpress from 'swagger-ui-express'
+import __direname from './utils/index.js';
 
 mongoose.connect(
   process.env.MONGO_URL
@@ -101,6 +108,25 @@ app.get('/mail', async (req,res) => {
 app.use('/mockingproducts' , fakerRouter )
 
 // FAKER
+
+// SWAGGER
+
+const swaggerOptions = {
+  definition: {
+    openapi: '3.0.1',
+    info: {
+      title: 'Documentazao',
+      description: 'Documentación',
+    },
+  },
+  apis: [`${__direname}/docs/**/*.yaml`],
+}; 
+
+const specs = swaggerJSDoc(swaggerOptions);
+app.use('/apidocs' , swaggerUiExpress.serve, swaggerUiExpress.setup(specs))
+
+
+// SWAGGER
 
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
