@@ -5,9 +5,9 @@ const carritoFile = './src/data/carrito.json';
 
 const cartManager = new CartManager(carritoFile)
 
-function createCart(req, res) {
+async function createCart(req, res) {
   try {
-    const newCart = cartManager.createCart();
+    const newCart = await cartManager.createCart();
     res.json({ cartId: newCart.id });
   } catch (error) {
     console.error('Error al crear el carrito', error);

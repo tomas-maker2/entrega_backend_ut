@@ -91,10 +91,14 @@ const addProduct = async (req, res) => {
 
   try {
     const newProduct = await productManager.addProduct(newProductData);
-    res.json(newProduct);
+    // res.json(newProduct);
+    res.status(200).json({
+      status: 'success',
+      payload: newProduct
+    })
   } catch (error) {
     console.error('Error al agregar un nuevo producto', error);
-    res.status(500).json({ error: 'Error al agregar un nuevo producto' });
+    res.status(500).json({ status: 'error' ,error: 'Error al agregar un nuevo producto' });
   }
 }
 
