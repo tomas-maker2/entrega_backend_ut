@@ -18,8 +18,20 @@ const userSchema = new mongoose.Schema({
     canCreateProduct: {
         type: Boolean,
         default: false
-    }
-})
+    },
+    documents: [
+        {
+            name: String,
+            reference: String,
+        }
+    ],
+    last_connection: Date,
+});
+
+userSchema.method.updateLastConnection = function() {
+    this.last_connection = new Date();
+    return this.save();
+}
 
 const userModel = mongoose.model(userCollection, userSchema);
 
